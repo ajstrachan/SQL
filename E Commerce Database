@@ -1,0 +1,21 @@
+CREATE DATABASE `Clothing_Store_List`;
+USE `Clothing_Store_List`;
+
+CREATE TABLE item_list (item_id INTEGER PRIMARY KEY, item_name TEXT, brand_name TEXT, price NUMERIC, department TEXT, quantity INTEGER);
+
+INSERT INTO item_list (item_id, item_name, brand_name, price, department, quantity) VALUES 
+(101, 'T-Shirt', 'Old Navy', '10.99', 'Women', 35), 
+(102, 'Blouse', 'Gap', '22.49', 'Women', 35), 
+(103, 'Sweater', 'Gap', '20.99', 'Women', 24), 
+(104, 'Sweatshirt', 'Macy', '38.49', 'Men', 19), 
+(105, 'Sweatpants', 'Macy', '45.99', 'Men', 10), 
+(106, 'Underwear', 'Ralph Lauren', '25.99', 'Men', 14), 
+(107, 'Sweater', 'Gap', '26.99', 'Women', 25), 
+(108, 'Fitted Hat', 'Macy', '42.49', 'Men', 17), 
+(109, 'Ankle Socks', 'Nike', '18.49', 'Men', 9), 
+(110, 'Jacket', 'Old Navy', '44.99', 'Women', 11), 
+(111, 'Underwear', 'Macy', '19.99', 'Women', 17), 
+(112, 'Jeans', 'Zara', '35.49', 'Women', 21), 
+(113, 'Jeans', 'Macy', '38.99', 'Men', 18), 
+(114, 'T-Shirt', 'Ralph Lauren', '31.49', 'Men', 11), 
+(115, 'Joggers', 'Zara', '16.99', 'Women', 8); 
