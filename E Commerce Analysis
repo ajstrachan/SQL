@@ -1,0 +1,43 @@
+## Analysis
+
+## Products that belong in the women’s department
+
+SELECT * 
+FROM item_list 
+WHERE department = 'Women';
+
+## Products that belong in the men’s department
+
+SELECT * 
+FROM item_list 
+WHERE department != 'Women';
+
+## Most expensive product in stock
+
+SELECT * 
+FROM item_list 
+ORDER BY price desc;
+
+## Least expensive product
+
+SELECT * 
+FROM item_list 
+ORDER BY price asc;
+
+## Products Needing Immediate Restock
+
+SELECT DISTINCT item_id, item_name, brand_name, quantity 
+FROM item_list 
+WHERE quantity <= 10;
+
+## Most revenue producing brand 
+
+SELECT brand_name, SUM(price * quantity) 
+FROM item_list 
+GROUP BY brand_name;
+
+## Brand with highest in stock inventory 
+SELECT brand_name, SUM(quantity) 
+FROM item_list 
+GROUP BY brand_name 
+ORDER BY SUM(quantity) desc; 
