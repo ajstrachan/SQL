@@ -1,0 +1,98 @@
+## In this analysis, I use multiple relational tables to complete a full data analysis. This analysis uses the following Famous Billionaires dataset:
+
+CREATE DATABASE `Famous_Billionaires`;
+USE `Famous_Billionaires`;
+
+
+CREATE TABLE billionaires (
+	id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    full_name TEXT,
+    age INTEGER,
+    nationality TEXT,
+	gender TEXT);
+    
+CREATE TABLE wealth (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    billionaires_id INTEGER,
+    net_worth NUMERIC,
+    source_wealth TEXT,
+    industry_type TEXT);
+    
+INSERT INTO billionaires (full_name, age, nationality, gender) 
+VALUES 
+('Jeff Bezos', 54, 'US', 'Male'),
+('Bill Gates', 62, 'US', 'Male'),
+('Warren Buffet', 87, 'US', 'Male'),
+('Bernard Arnault', 69, 'France', 'Male'),
+('Mark Zucherberg', 33, 'US', 'Male'),
+('Sergey Brin', 50, 'US', 'Male'),
+('Francoise Bettencourt', 70, 'France', 'Female'),
+('Mukesh Ambani', 66, 'India', 'Male'),
+('Larry Page', 50, 'US', 'Male'),
+('Elon Musk', 52, 'US', 'Male'),
+('Michael Bloomberg', 87, 'US', 'Male'),
+('Carlos Slim Helu', 84, 'Mexico', 'Male'),
+('Steve Ballmer', 67, 'US', 'Male'),
+('Amancio Ortega', 87, 'Spain', 'Male'),
+('Larry Ellison', 79, 'US', 'Male');
+
+  
+INSERT INTO wealth (billionaires_id, net_worth, source_wealth, industry_type) 
+VALUES 
+(1, '192.3', 'Amazon', 'Technology'),
+(2, '123.2', 'Microsoft', 'Technology'),
+(3, '128.8', 'Berkshire Hathaway', 'Finance/Investments'),
+(4, '212.1', 'LVMH', 'Retail'),
+(5, '164.9', 'Facebook', 'Technology'),
+(6, '115.7', 'Google', 'Technology'),
+(7, '99.5', 'LOreal', 'Retail'),
+(8, '112.1', 'Diversified', 'Diversified'),
+(9, '120.7', 'Google', 'Technology'),
+(10, '194.5', 'Tesla', 'Automotive'),
+(11, '96.3', 'Bloomberg LP', 'Finance/Investments'),
+(12, '99.1', 'Telecom', 'Telecom'),
+(13, '119.2', 'Microsoft', 'Technology'),
+(14, '98.2', 'Zara', 'Retail'),
+(15, '143.9', 'Oracle', 'Technology');
+
+## Analysis
+
+#1 Names of top 15 billionaires
+SELECT full_name
+FROM Famous_Billionaires.billionaires
+LIMIT 15;
+
+#2 Total net worth of each billionaire
+SELECT full_name, net_worth
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaires_id;
+
+#3 Billionaire with the most net_worth
+SELECT full_name, net_worth
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaires_id
+ORDER BY net_worth DESC
+LIMIT 1;
+
+#4 Billionaires are in the tech industry with a net worth greater than 100 billion dollars
+SELECT full_name, net_worth, industry_type
+FROM billionaires
+JOIN wealth
+ON billionaires.id = wealth.billionaires_id
+WHERE industry_type = 'Technology' AND net_worth > 100
+
+#5 Classify Billionaires in terms of age
+SELECT full_name, age
+CASE age
+	WHEN age > 65 THEN 'Senior'
+	WHEN age > 45 THEN 'Middle aged'
+	ELSE 'Young adult'
+END as 'age_level'
+FROM billionaires;
+
+#6 How many billionaires are women?
+SELECT gender, COUNT(gender)
+FROM billionaires
+WHERE gender = 'Female';
