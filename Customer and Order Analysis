@@ -1,0 +1,95 @@
+# This is a query of a database to quantify statistics about January customer and order data for a furniture store
+
+## ANALYSIS
+
+#1 Total number of orders placed in January
+SELECT COUNT(ID)
+FROM sales
+WHERE transaction_date LIKE '1%';
+
+#2 Cheapest product sold and what was the price?
+SELECT DISTINCT product, price
+FROM sales
+ORDER BY price ASC LIMIT 1;
+#OR
+SELECT DISTINCT product, price
+FROM sales
+WHERE price in (SELECT min(price) FROM sales);
+
+#3 Most expensive product sold and what is the price?
+SELECT DISTINCT product, price
+FROM sales
+ORDER BY price DESC LIMIT 1;
+
+#3 Total amount of orders per product
+SELECT product, COUNT(product) AS quantity
+FROM sales
+GROUP BY product;
+
+#4 Total revenue per product sold
+SELECT product, SUM(price) AS revenue
+FROM sales
+GROUP BY product;
+
+#5 What countries are customers buying from and how much orders per country?
+SELECT DISTINCT country,
+COUNT(product) AS quantity
+FROM sales
+GROUP BY country
+ORDER BY quantity DESC;
+
+#5 Which products are sold in the United States, how many of each were sold and what was the revenue?
+SELECT 
+product,
+COUNT(product) AS quantity,
+SUM(price) AS revenue
+FROM sales
+WHERE country = 'United states'
+GROUP BY product;
+
+#6 What states are US customers purchasing from?
+SELECT DISTINCT state
+FROM sales
+WHERE country = 'United states';
+
+#7 Top 3 US selling states, how much products bought per state and what was the revenue per state?
+SELECT state, 
+COUNT(product) AS quantity,
+SUM(price) as revenue
+FROM sales
+WHERE country = 'United states'
+GROUP BY state
+ORDER BY revenue DESC
+LIMIT 3;
+
+#8 What was the average amount spent per order in Florida and NY?
+SELECT 
+state,
+AVG(price)
+FROM sales
+WHERE state = 'NY' OR state = 'FL'
+GROUP BY state;
+
+#9 Which state(s) have an average order price greater than or equal to $2000?
+SELECT 
+state,
+AVG(price)
+FROM sales
+WHERE country = 'United states'
+GROUP BY state
+HAVING avg(price) >= 2000;
+
+#10 How many customers paid more than $2000 and live in Florida?
+SELECT
+COUNT(ID)
+FROM sales
+WHERE price > '2000' AND state = 'FL';
+
+#11 Which location in NY received the most orders?
+SELECT
+city,
+COUNT(ID) AS quantity
+FROM sales
+WHERE state = 'NY'
+GROUP BY city
+ORDER BY quantity DESC;
